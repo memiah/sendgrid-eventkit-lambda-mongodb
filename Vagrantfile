@@ -20,6 +20,5 @@ Vagrant.configure("2") do |config|
         sudo apt-get install -y nodejs 
         sudo npm install -gy lambda-local
     SHELL
-    # lambda-local -l index.js -e event.json -E '{\"DATABASE\":\"mongodb://localhost:27017/evie\"}'
 
 end
