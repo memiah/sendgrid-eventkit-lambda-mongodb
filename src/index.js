@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const uri = process.env.DATABASE;
 // scope dbconnection globally
 let dbConnection = null;
-const eventtypes = require("_eventtypes.js");
 
 // lambda entry handler
 exports.handler = async function(event, context) {
@@ -23,18 +22,18 @@ exports.handler = async function(event, context) {
         const eventSchema = require('./models/event');
         dbConnection.model('Event', eventSchema);
     }
-    
-    // pull
+
+    // get event data from gateway passthrough
     let eventData = event.body; 
-    if(eventData typeof "string") {
+
+    // if event data is a string, parse it
+    if(typeof eventData == "string") {
         eventData = JSON.parse(eventData);
     }
 
-    eventShape = eventTypes.filter((item) => item.event == eventData.event, this);
+    const eventModel = dbConnection.model('Event'); 
+    const res = await eventModel.insertMany(eventData);
 
-    const eventModel = dbConnection.model('event'); 
-    await eventModel.create(eventData);
-
-    return { "statusCode": 200, "body": true };
+    return { "statusCode": 200, "body": { "inserted": res.length }};
 
 };
