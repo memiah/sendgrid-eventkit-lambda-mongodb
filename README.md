@@ -40,8 +40,9 @@ lambda-local -l ./index.js -e ./tests/events.json -E '{\"DATABASE\":\"mongodb://
 ## Pending updates
 1. enforce unique index on sg_message_id
 2. handle unique key errors in insertMany
-3. replace vagrant shell setup with ansible
+3. replace vagrant with docker/ansible
 4. add AWS Lambda setup guide to README
+5. add testing and travis CI
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
