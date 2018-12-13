@@ -16,7 +16,8 @@ exports.handler = async function(event, context) {
         dbConnection = await mongoose.createConnection(uri, {
           bufferCommands: false,
           bufferMaxEntries: 0,
-          useNewUrlParser: true
+          useNewUrlParser: true,
+          useCreateIndex: true
         });
         // create model and attach to global database connection 
         const eventSchema = require('./models/event');
