@@ -44,8 +44,8 @@ lambda-local -l ./index.js -e ./tests/events.json -E '{\"DATABASE\":\"mongodb://
 - [ ] add AWS Lambda setup guide to README
 - [ ] add testing and travis CI
     - [X] test deep nested lambda function handlers (Result: _namespace/component.handler_)
-    - [ ] setup IAM user for Travis
-    - [ ] document Travis:IAM process
+    - [X] setup IAM user for Travis
+    - [X] document Travis:IAM process
     - [ ] add Lambda deployment to travis (https://docs.travis-ci.com/user/deployment/lambda/)
 
 ## Contributing
