@@ -11,7 +11,7 @@ const schema = new Schema(
     "useragent": String,
     "ip": String,
     "sg_event_id": String,
-    "sg_message_id": String,
+    "sg_message_id": { type: String, unique: true},
     "reason": String,
     "status": String,
     "response": String,
