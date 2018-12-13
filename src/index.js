@@ -16,7 +16,8 @@ exports.handler = async function(event, context) {
         dbConnection = await mongoose.createConnection(uri, {
           bufferCommands: false,
           bufferMaxEntries: 0,
-          useNewUrlParser: true
+          useNewUrlParser: true,
+          useCreateIndex: true
         });
         // create model and attach to global database connection 
         const eventSchema = require('./models/event');
@@ -32,8 +33,30 @@ exports.handler = async function(event, context) {
     }
 
     const eventModel = dbConnection.model('Event'); 
-    const res = await eventModel.insertMany(eventData);
 
-    return { "statusCode": 200, "body": { "inserted": res.length }};
+    // initialise return result
+    const result = { received: eventData.length, dupes: 0, errors: 0 };
+
+    await new Promise((resolve, reject) => {
+        // insert records
+        eventModel.insertMany(eventData, { ordered: false }, (error) => { 
+            // count dupes and non-dupe errors
+            if(error && error.writeErrors) {
+                result.dupes = error.writeErrors.filter( error => error.err.code == 11000 ).length;
+                result.errors = error.writeErrors.length - result.dupes;
+            }
+            resolve(true);
+        });
+    });
+
+    if(result.errors > 0) {
+        console.error({ eventData: eventData, insertResult: result });
+    }
+
+    if(result.dupes > 0) {
+        console.warn({ eventData: eventData, insertResult: result });
+    }
+
+    return { "statusCode": result.errors ? 500 : 200, "body": result };
 
 };
