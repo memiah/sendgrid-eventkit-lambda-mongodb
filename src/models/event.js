@@ -9,7 +9,7 @@ const schema = new Schema(
     "event": String,
     "smtp-id": String,
     "useragent": String,
-    "IP": String,
+    "ip": String,
     "sg_event_id": String,
     "sg_message_id": String,
     "reason": String,
