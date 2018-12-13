@@ -43,6 +43,9 @@ lambda-local -l ./index.js -e ./tests/events.json -E '{\"DATABASE\":\"mongodb://
 - [ ] replace vagrant with docker/ansible
 - [ ] add AWS Lambda setup guide to README
 - [ ] add testing and travis CI
+    - [X] test deep nested lambda function handlers
+    - [ ] setup IAM user for Travis
+    - [ ] add Lambda deployment to travis (https://docs.travis-ci.com/user/deployment/lambda/)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
