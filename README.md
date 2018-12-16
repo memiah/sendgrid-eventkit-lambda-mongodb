@@ -2,13 +2,22 @@
 
 Lambda function using Node.js to accept events from SendGrid and insert into Mongo store.
 
-## Testing via Docker
+## Local Development via Docker with Mapped volumes
 
+### Local Dependancies
+1. Docker
+2. npm
+
+### Process
 1. Copy .env.example to .env
 2. Update ENVIRONMENT to "development"
 3. Change TESTFILE location if desired
-4. Init Docker:
+4. Install NPM dependancies
+```bash
+npm install
+```
 
+5. Init Docker:
 ```bash
 docker-compose up
 ```
@@ -19,7 +28,8 @@ docker-compose up
 ## Pending updates
 - [X] enforce unique index on sg_message_id
 - [X] handle unique key errors in insertMany
-- [X] replace vagrant with docker
+- [X] replace vagrant with docker for local development
+- [ ] add packaged staging with Docker
 - [ ] add AWS Lambda setup guide to README
 - [ ] add testing and travis CI
     - [X] test deep nested lambda function handlers (Result: _namespace/component.handler_)
