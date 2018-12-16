@@ -9,6 +9,10 @@ let dbConnection = null;
 // lambda entry handler
 exports.handler = async function(event, context) {
 
+    if(process.env.ENVIRONMENT == 'development') {
+        event = require(process.env.TESTFILE);
+    }
+
     context.callbackWaitsForEmptyEventLoop = false;
 
     // if database connection not active, create it
