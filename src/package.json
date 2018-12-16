@@ -2,10 +2,7 @@
   "name": "sendgrid",
   "version": "1.0.0",
   "description": "lambda functions for sendgrid integration with mongo",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "index.js", 
   "author": "SGT",
   "license": "ISC",
   "dependencies": {
