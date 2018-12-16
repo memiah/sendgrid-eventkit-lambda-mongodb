@@ -2,7 +2,7 @@
   "name": "sendgrid",
   "version": "1.0.0",
   "description": "lambda functions for sendgrid integration with mongo",
-  "main": "index.js", 
+  "main": "index.js",
   "author": "SGT",
   "license": "ISC",
   "dependencies": {
