@@ -4,7 +4,7 @@ services:
   app:
     image: lambci/lambda:nodejs8.10
     volumes:
-      - "./src:/var/task"
+      - .:/var/task
     environment:
       - DATABASE=mongodb://mongodb:27017/sendgrid
       - ENVIRONMENT=${ENVIRONMENT}
