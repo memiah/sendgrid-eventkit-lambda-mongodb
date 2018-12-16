@@ -31,6 +31,7 @@ docker-compose up
 - [X] replace vagrant with docker for local development
 - [ ] add packaged staging with Docker
 - [ ] add AWS Lambda setup guide to README
+- [ ] improve debug testdata files with unique event ids
 - [ ] add testing and travis CI
     - [X] test deep nested lambda function handlers (Result: _namespace/component.handler_)
     - [X] setup IAM user for Travis
