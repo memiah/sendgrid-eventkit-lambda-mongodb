@@ -9,7 +9,7 @@ let dbConnection = null;
 // lambda entry handler
 exports.handler = async function(event, context) {
 
-    if(process.env.ENVIRONMENT == 'development') {
+    if(process.env.TESTFILE) {
         event = require(process.env.TESTFILE);
     }
 
