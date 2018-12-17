@@ -2,13 +2,11 @@ version: '3'
 
 services:
   app:
-    image: lambci/lambda:nodejs8.10
-    volumes:
-      - .:/var/task
-    environment:
-      - DATABASE=mongodb://mongodb:27017/sendgrid
-      - ENVIRONMENT=${ENVIRONMENT}
-      - TESTFILE=${TESTFILE}
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.${ENVIRONMENT}
+    depends_on:
+      - mongodb
 
   mongodb:
     container_name: mongodb
