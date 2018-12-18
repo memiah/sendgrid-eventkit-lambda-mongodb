@@ -1,4 +1,5 @@
 sudo: required
+dist: trusty
 
 services:
   - docker
@@ -7,8 +8,6 @@ env:
   ENVIRONMENT: travis
   TESTFILE: ./testdata/events.real.json
   DATABASE: mongodb://mongodb:27017/sendgrid
-  - distribution: ubuntu
-    version: trusty
 
 before_install:
   - sudo docker --version
