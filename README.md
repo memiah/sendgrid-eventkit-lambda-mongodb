@@ -17,9 +17,13 @@ Lambda function using Node.js to accept events from SendGrid and insert into Mon
 npm install
 ```
 
-5. Init Docker:
+5. Init Docker (add -d for quiet run)
 ```bash
-docker-compose up
+# foreground run with return data
+docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up
+
+# background run (no visual feedback - check mongo for data)
+docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up
 ```
 
 - This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
