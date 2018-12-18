@@ -7,7 +7,7 @@ services:
 env:
   ENVIRONMENT: travis
   TESTFILE: ./testdata/events.real.json
-  #DATABASE: mongodb://mongodb:27017/sendgrid
+  DATABASE: mongodb://mongodb:27017/sendgrid
 
 before_install:
   - sudo docker --version
