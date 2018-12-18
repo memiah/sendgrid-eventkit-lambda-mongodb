@@ -2,47 +2,46 @@
 
 Lambda function using Node.js to accept events from SendGrid and insert into Mongo store.
 
-## Setup
+## Local Development via Docker with Mapped volumes
 
-Local setup using vagrant
+### Local Dependancies
+1. Docker
+2. npm
 
+### Process
+1. Copy .env.example to .env
+2. Update ENVIRONMENT to "development"
+3. Change TESTFILE location if desired
+4. Install NPM dependancies
 ```bash
-vagrant up
+npm install
 ```
 
-Local setup using Ubuntu
+5. Init Docker (add -d for quiet run)
 ```bash
-# install mongodb repos
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-sudo apt-get update
-# install mongo db
-sudo apt-get install -y mongodb-org
-# install nodejs
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs 
-# install lambda-local for local testing
-sudo npm install -gy lambda-local
+# foreground run with return data
+docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up
+
+# background run (no visual feedback - check mongo for data)
+docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up
 ```
 
-## Testing
-
-### Test using lambda-local on ubuntu
-```bash
-lambda-local -l ./index.js -e ./tests/events.json -E {\"DATABASE\":\"mongodb://localhost:27017/evie\"}
-```
-
-### Test using lambda-local on Powershell
-```bash
-lambda-local -l ./index.js -e ./tests/events.json -E '{\"DATABASE\":\"mongodb://localhost:27017/evie\"}'
-```
+- This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
+- Events are written to MongoDB in container and accessible via Mongo client pointing to mongodb://127.0.0.1:27017/sendgrid
 
 ## Pending updates
 - [X] enforce unique index on sg_message_id
 - [X] handle unique key errors in insertMany
-- [ ] replace vagrant with docker/ansible
+- [X] replace vagrant with docker for local development
+- [X] add packaged staging with Docker
 - [ ] add AWS Lambda setup guide to README
+- [ ] improve debug testdata files with unique event ids
 - [ ] add testing and travis CI
+    - [X] test deep nested lambda function handlers (Result: _namespace/component.handler_)
+    - [X] setup IAM user for Travis
+    - [X] document Travis:IAM process
+    - [X] set up travis build file using docker
+    - [ ] add Lambda deployment to travis (https://docs.travis-ci.com/user/deployment/lambda/)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

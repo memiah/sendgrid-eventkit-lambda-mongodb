@@ -32,3 +32,6 @@ event.json
 
 # ignore vagrant
 .vagrant
+
+# ignore .env
+.env
