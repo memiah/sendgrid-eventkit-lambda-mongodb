@@ -4,17 +4,12 @@ dist: trusty
 services:
   - docker
 
-env:
-  ENVIRONMENT: travis
-  TESTFILE: ./testdata/events.real.json
-  DATABASE: mongodb://mongodb:27017/sendgrid
-
 before_install:
   - sudo docker --version
   - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis .
 
 script:
-  - docker-compose up --exit-code-from app
+  - docker-compose -f docker-compose.yml -f .docker/docker-compose.travis.yml up --exit-code-from app
 
 after_script:
   - docker-compose stop
