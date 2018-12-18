@@ -11,7 +11,7 @@ env:
 
 before_install:
   - sudo docker --version
-  - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis
+  - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis .
 
 script:
   - docker-compose up -d
