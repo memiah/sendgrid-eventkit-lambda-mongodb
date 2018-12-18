@@ -19,11 +19,9 @@ npm install
 
 5. Init Docker (add -d for quiet run)
 ```bash
-# foreground run with return data
-docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up
-
-# background run (no visual feedback - check mongo for data)
-docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up
+# exits with lambda function return code
+# 0=success
+docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up --exit-code-from app
 ```
 
 - This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
