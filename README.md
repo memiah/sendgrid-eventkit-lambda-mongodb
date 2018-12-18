@@ -19,13 +19,12 @@ npm install
 
 5. Init Docker
 ```bash
-# exits with lambda function return code
-# 0=success
 docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up --exit-code-from app
 ```
 
 - This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
-- Events are written to MongoDB in container and accessible via Mongo client pointing to mongodb://127.0.0.1:27017/sendgrid
+- docker exits when lambda function returns code (sendgrid_app_1 exited with code ~)
+- ~ = 0 = success; 
 
 ## Pending updates
 - [X] enforce unique index on sg_message_id
