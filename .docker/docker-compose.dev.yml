@@ -5,6 +5,6 @@ services:
     volumes:
       - .:/var/task
     environment:
-      - DATABASE=mongodb://mongodb:27017/sendgrid
+      - DATABASE=mongodb://sendgrid-eventkit-lambda-mongodb-mongo:27017/sendgrid
       - ENVIRONMENT=${ENVIRONMENT}
       - TESTFILE=${TESTFILE}
