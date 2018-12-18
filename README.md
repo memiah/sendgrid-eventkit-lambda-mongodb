@@ -1,4 +1,4 @@
-# sendgrid-eventkit-lambda-mongodb
+# sendgrid-eventkit-lambda-mongodb - [![Build Status](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb.svg?branch=master)](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb)
 
 Lambda function using Node.js to accept events from SendGrid and insert into Mongo store.
 
