@@ -3,24 +3,20 @@ sudo: required
 services:
   - docker
 
-  env:
-    ENVIRONMENT: travis
-    TESTFILE: ./testdata/events.real.json
-    DATABASE: mongodb://mongodb:27017/sendgrid
-    - distribution: ubuntu
-      version: trusty
+env:
+  ENVIRONMENT: travis
+  TESTFILE: ./testdata/events.real.json
+  DATABASE: mongodb://mongodb:27017/sendgrid
+  - distribution: ubuntu
+    version: trusty
 
-  before_install:
-    #- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    #- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    #- sudo apt-get update
-    #- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce      
-    - sudo docker --version
-    - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis
-  
-  script:
-    - docker-compose up -d
+before_install:
+  - sudo docker --version
+  - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis
 
-  after_script:
-    - docker-compose stop
-    - docker-compose rm -f
+script:
+  - docker-compose up -d
+
+after_script:
+  - docker-compose stop
+  - docker-compose rm -f
