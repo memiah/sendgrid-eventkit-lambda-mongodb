@@ -4,6 +4,9 @@ dist: trusty
 services:
   - docker
 
+env:
+  ENVIRONMENT: travis
+
 before_install:
   - sudo docker --version
   - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis .
