@@ -19,7 +19,10 @@ npm install
 
 5. Init Docker
 ```bash
+# use docker to run test
 docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up --exit-code-from app
+# clean up containers
+docker rm -v sendgrid-eventkit-lambda-mongodb-mongo 
 ```
 
 - This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
@@ -31,7 +34,7 @@ docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up --
 - [X] handle unique key errors in insertMany
 - [X] replace vagrant with docker for local development
 - [X] add packaged staging with Docker
-- [ ] improve debug testdata files with unique event ids
+- [X] improve debug testdata files with unique event ids
 - [ ] add testing and travis CI
     - [X] test deep nested lambda function handlers (Result: _namespace/component.handler_)
     - [X] setup IAM user for Travis
