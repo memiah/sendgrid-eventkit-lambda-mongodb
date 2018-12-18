@@ -4,5 +4,5 @@ services:
   app:
     environment:
       - DATABASE=mongodb://mongodb:27017/sendgrid
-      - ENVIRONMENT=${ENVIRONMENT}
-      - TESTFILE=${TESTFILE}
+      - ENVIRONMENT=travis
+      - TESTFILE=./testdata/events.json
