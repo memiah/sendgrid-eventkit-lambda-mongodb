@@ -20,7 +20,7 @@ npm install
 5. Init Docker
 ```bash
 # use docker to run test
-docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up --exit-code-from app
+docker-compose -f ./docker-compose.yml -f ./.docker/docker-compose.dev.yml up --exit-code-from app
 # clean up containers
 docker rm -v sendgrid-eventkit-lambda-mongodb-mongo 
 ```
