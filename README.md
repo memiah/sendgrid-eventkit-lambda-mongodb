@@ -17,7 +17,7 @@ Lambda function using Node.js to accept events from SendGrid and insert into Mon
 npm install
 ```
 
-5. Init Docker (add -d for quiet run)
+5. Init Docker
 ```bash
 # exits with lambda function return code
 # 0=success
