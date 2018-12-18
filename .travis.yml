@@ -14,7 +14,7 @@ before_install:
   - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis .
 
 script:
-  - docker-compose up -d
+  - docker-compose up
 
 after_script:
   - docker-compose stop
