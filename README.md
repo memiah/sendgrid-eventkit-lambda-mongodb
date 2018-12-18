@@ -31,7 +31,6 @@ docker-compose -f .\docker-compose.yml -f .\.docker\docker-compose.dev.yml up --
 - [X] handle unique key errors in insertMany
 - [X] replace vagrant with docker for local development
 - [X] add packaged staging with Docker
-- [ ] add AWS Lambda setup guide to README
 - [ ] improve debug testdata files with unique event ids
 - [ ] add testing and travis CI
     - [X] test deep nested lambda function handlers (Result: _namespace/component.handler_)
