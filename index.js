@@ -28,6 +28,8 @@ exports.handler = async function(event, context) {
         dbConnection.model('Event', eventSchema);
     }
 
+    const eventModel = dbConnection.model('Event'); 
+
     // get event data from gateway passthrough
     let eventData = event.body; 
 
@@ -36,7 +38,21 @@ exports.handler = async function(event, context) {
         eventData = JSON.parse(eventData);
     }
 
-    const eventModel = dbConnection.model('Event'); 
+    // separate unpacked fields and put everything else in eventData embedded data
+    const handledFields = Object.keys(eventModel.schema.obj);
+    eventData = eventData.map(event => {
+        let mappedEvent = { 'eventData': {} };
+        Object.keys(event).forEach(key => {
+        if (handledFields.indexOf(key) > -1) {
+            mappedEvent[key] = event[key];
+        } else {
+            mappedEvent.eventData[key] = event[key];
+        }
+        });
+        //mappedEvent.eventData = JSON.stringify(mappedEvent.eventData);
+        return mappedEvent;
+    });
+
 
     // initialise return result
     const result = { received: eventData.length, dupes: 0, errors: 0 };
