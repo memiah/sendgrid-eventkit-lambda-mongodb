@@ -13,7 +13,7 @@ const schema = new Schema(
     "reason": String,
     "status": String,
     "response": String,
-    "eventData": new Schema({}, {strict: false})
+    "info": new Schema({}, {strict: false})  
   },
   { collection: 'events' },
 );

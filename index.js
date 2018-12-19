@@ -41,12 +41,12 @@ exports.handler = async function(event, context) {
     // separate unpacked fields and put everything else in eventData embedded data
     const handledFields = Object.keys(eventModel.schema.obj);
     eventData = eventData.map(event => {
-        let mappedEvent = { 'eventData': {} };
+        let mappedEvent = { 'info': {} };
         Object.keys(event).forEach(key => {
         if (handledFields.indexOf(key) > -1) {
             mappedEvent[key] = event[key];
         } else {
-            mappedEvent.eventData[key] = event[key];
+            mappedEvent.info[key] = event[key];
         }
         });
         //mappedEvent.eventData = JSON.stringify(mappedEvent.eventData);
