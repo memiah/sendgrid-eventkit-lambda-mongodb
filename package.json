@@ -1,11 +1,12 @@
 {
-  "name": "sendgrid",
+  "name": "sendgrid-eventkit-lambda-mongodb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/memiah/sendgrid-eventkit-lambda-mongodb.git"
+  },
   "version": "1.0.0",
   "description": "lambda functions for sendgrid integration with mongo",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "SGT",
   "license": "ISC",
   "dependencies": {

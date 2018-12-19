@@ -1,0 +1,5 @@
+FROM lambci/lambda:nodejs8.10
+ADD . /var/task
+WORKDIR /var/task
+USER root
+RUN npm install
