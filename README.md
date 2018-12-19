@@ -6,7 +6,8 @@ Lambda function using Node.js to accept events from SendGrid and insert into Mon
 
 ### Local Dependancies
 1. Docker
-2. npm
+2. docker-compose
+3. npm
 
 ### Process
 1. Copy .env.example to .env
