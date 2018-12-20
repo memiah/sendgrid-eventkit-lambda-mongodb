@@ -14,13 +14,13 @@ before_install:
 script:
   - docker-compose -f docker-compose.yml -f .docker/docker-compose.travis.yml up --exit-code-from app
 
-deploy:
-  provider: lambda
-  function_name: "lambda-test"
+  role: "arn:aws:iam::556349020431:role/lambda_basic_execution"
   region: "eu-west-2"
-  role: "arn:aws:iam::057188795804:role/lambda_basic_execution"
-  runtime: "nodejs8.10"
+  function_name: "sendgrid-eventkit"
+  provider: lambda
+deploy:
   handler_name: "handler"
+  runtime: "nodejs8.10"
 
 after_script:
   - docker-compose stop
