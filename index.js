@@ -8,7 +8,7 @@ let dbConnection = null;
 
 // lambda entry handler
 exports.handler = async function(event, context) {
-
+    //swap out event for test file when in dev
     if(process.env.TESTFILE) {
         event = require(process.env.TESTFILE);
     }
