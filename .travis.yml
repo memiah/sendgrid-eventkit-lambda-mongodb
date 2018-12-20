@@ -14,7 +14,14 @@ before_install:
 script:
   - docker-compose -f docker-compose.yml -f .docker/docker-compose.travis.yml up --exit-code-from app
 
+deploy:
+  provider: lambda
+  function_name: "lambda-test"
+  region: "eu-west-2"
+  role: "arn:aws:iam::057188795804:role/lambda_basic_execution"
+  runtime: "nodejs8.2"
+  handler_name: "handler"
+
 after_script:
   - docker-compose stop
   - docker-compose rm -f
-  
