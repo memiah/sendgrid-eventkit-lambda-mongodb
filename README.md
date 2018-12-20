@@ -1,6 +1,22 @@
+
 # sendgrid-eventkit-lambda-mongodb - [![Build Status](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb.svg?branch=master)](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb)
 
+## Table of Contents
+* [Table of Contents](#table-of-contents)
+    * [Motivation ](#motivation)
+    * [Local Development via Docker with Mapped volumes](#local-development-via-docker-with-mapped-volumes)
+    * [Local Dependancies](#local-dependancies)
+    * [Process](#process)
+    * [IAM Policy & Setup](.iam.md#table-of-contents)
+    * [Pending updates](#pending-updates)
+    * [Contributing](#contributing)
+    * [License](#license)
+
+## Motivation 
+
+Provision a Lambda based relay script that will consume SendGrid webhook endpoints and relay them to MongoDBAtlas. Also included as part of the microservice is information 
 Lambda function using Node.js to accept events from SendGrid and insert into Mongo store.
+
 
 ## Local Development via Docker with Mapped volumes
 
