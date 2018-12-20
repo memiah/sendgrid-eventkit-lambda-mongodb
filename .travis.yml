@@ -18,7 +18,7 @@ deploy:
   provider: lambda
   function_name: "sendgrid-eventkit"
   region: "eu-west-2"
-  role: "arn:aws:iam::057188795804:role/lambda_basic_execution"
+  role: "arn:aws:iam::556349020431:role/lambda_basic_execution"
   runtime: "nodejs8.2"
   handler_name: "handler"
 
