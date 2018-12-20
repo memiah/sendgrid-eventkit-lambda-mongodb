@@ -2,12 +2,13 @@
 # sendgrid-eventkit-lambda-mongodb - [![Build Status](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb.svg?branch=master)](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb)
 
 ## Table of Contents
+* [**.iam.md: IAM Policy & Setup**](.iam.md#table-of-contents)
+
 * [Table of Contents](#table-of-contents)
     * [Motivation ](#motivation)
     * [Local Development via Docker with Mapped volumes](#local-development-via-docker-with-mapped-volumes)
     * [Local Dependancies](#local-dependancies)
     * [Process](#process)
-    * [IAM Policy & Setup](.iam.md#table-of-contents)
     * [Pending updates](#pending-updates)
     * [Contributing](#contributing)
     * [License](#license)
