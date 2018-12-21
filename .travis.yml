@@ -16,7 +16,7 @@ script:
 
 deploy:
   provider: lambda
-  role: "arn:aws:iam::memiah-aimi:role/lambda_basic_execution"
+  role: "arn:aws:iam::057188795804:role/lambda_basic_execution"
   region: "eu-west-2"
   function_name: "sendgrid-eventkit"
   handler_name: "handler"
