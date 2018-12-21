@@ -13,6 +13,7 @@ before_install:
 
 script:
   - docker-compose -f docker-compose.yml -f .docker/docker-compose.travis.yml up --exit-code-from app
+  - npm install
 
 deploy:
   provider: lambda
