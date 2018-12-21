@@ -46,7 +46,7 @@ exports.handler = async function(event, context) {
     const eventModel = dbConnection.model('Event'); 
 
     // get event data from gateway passthrough
-    let eventData = event.body; 
+    let eventData = event; 
 
     // if event data is a string, parse it
     if(typeof eventData == "string") {
