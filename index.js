@@ -1,6 +1,8 @@
 "use strict";
 
 const mongoose = require("mongoose");
+const request = require('request-promise');
+
 // DATABASE mongo URI should be set via Lambda env
 const uri = process.env.DATABASE;
 // scope dbconnection globally
@@ -8,14 +10,10 @@ let dbConnection = null;
 
 // lambda entry handler
 exports.handler = async function(event, context) {
-    //swap out event for test file when in dev
-    if(process.env.TESTFILE) {
-        event = require(process.env.TESTFILE);
-    }
 
     context.callbackWaitsForEmptyEventLoop = false;
 
-    // if database connection not active, create it
+    // if database connection not active, create it in global scope
     if (dbConnection == null) {
         dbConnection = await mongoose.createConnection(uri, {
           bufferCommands: false,
@@ -27,6 +25,23 @@ exports.handler = async function(event, context) {
         const eventSchema = require('./models/event');
         dbConnection.model('Event', eventSchema);
     }
+
+    //swap out event for test file when in dev
+    if(process.env.TESTFILE) {
+        event = require(process.env.TESTFILE);
+    }
+
+    const webhookUri = process.env.LEGACY_WEBHOOK_URI;
+
+    // pull webhook uri from environment
+    const options = {
+        method: 'POST',
+        uri: webhookUri,
+        body: event,
+        json: true
+    };
+
+    await request(options);
 
     const eventModel = dbConnection.model('Event'); 
 
