@@ -53,12 +53,13 @@ docker rm -v sendgrid-eventkit-lambda-mongodb-mongo
 - [X] replace vagrant with docker for local development
 - [X] add packaged staging with Docker
 - [X] improve debug testdata files with unique event ids
-- [ ] add testing and travis CI
+- [X] add testing and travis CI
     - [X] test deep nested lambda function handlers (Result: _namespace/component.handler_)
     - [X] setup IAM user for Travis
     - [X] document Travis:IAM process
     - [X] set up travis build file using docker
-    - [ ] add Lambda deployment to travis (https://docs.travis-ci.com/user/deployment/lambda/)
+    - [X] add Lambda deployment to travis (https://docs.travis-ci.com/user/deployment/lambda/)
+- [ ] document AWS API Gateway setup
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
