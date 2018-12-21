@@ -15,11 +15,11 @@
 
 ## Motivation 
 
-Provision a Lambda based relay script that will consume SendGrid webhook endpoints and relay them to MongoDBAtlas. Also included as part of the microservice is information 
-Lambda function using Node.js to accept events from SendGrid and insert into Mongo store.
+Provision a Lambda based relay script that will, self test, self deploy and consume SendGrid webhook endpoints and relay them to Mongodb's Atlas cloud service.  Also included as part of the microservice is information on how to setup the AWS IAM policies with the least permissive [policy](.iam.md#example-policy) possible. The service is deployable using the Travis github hooks and will automatically test with local integrations of NodeJS and MongoDB that are stored within the docker containers.
 
 
 ## Local Development via Docker with Mapped volumes
+The folder ./.docker folder contains the dev containers as well as the travis production containers. [**.env.example**](#process) must be populated when running in development as per the process below.
 
 ### Local Dependancies
 1. Docker
