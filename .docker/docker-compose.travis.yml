@@ -6,3 +6,4 @@ services:
       - DATABASE=mongodb://sendgrid-eventkit-lambda-mongodb-mongo:27017/sendgrid
       - ENVIRONMENT=travis
       - TESTFILE=./testdata/events.json
+      - LEGACY_WEBHOOK_URI=https://memiah-sendgrid-travis.requestcatcher.com/test
