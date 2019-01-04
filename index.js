@@ -34,7 +34,9 @@ exports.handler = async function(event, context) {
     const query = event.params.querystring;
     event = event['body-json'];
 
-    const webhookUri = process.env.LEGACY_WEBHOOK_URI;
+    const webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + query.s;
+
+    console.log('webhookUri', webhookUri);
 
     // pull webhook uri from environment
     const options = {
