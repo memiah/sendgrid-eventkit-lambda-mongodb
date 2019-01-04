@@ -13,9 +13,6 @@ exports.handler = async function(event, context) {
 
     context.callbackWaitsForEmptyEventLoop = false;
 
-    console.log('context', event.context);
-    console.log('event', event);
-
     // if database connection not active, create it in global scope
     if (dbConnection == null) {
         dbConnection = await mongoose.createConnection(uri, {
