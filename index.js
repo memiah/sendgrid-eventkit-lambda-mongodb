@@ -31,6 +31,9 @@ exports.handler = async function(event, context) {
         event = require(process.env.TESTFILE);
     }
 
+    const query = event.params.querystring;
+    event = event['body-json'];
+
     const webhookUri = process.env.LEGACY_WEBHOOK_URI;
 
     // pull webhook uri from environment
