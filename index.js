@@ -97,6 +97,12 @@ exports.handler = async function(event, context) {
         console.warn('dupesFoundInData', { allEventData: eventData, insertResult: result });
     }
 
-    return { "statusCode": result.errors ? 500 : 200, "body": result };
+    const statusCode = result.errors ? 500 : 200
+    const response = { "statusCode": statusCode, "body": result }
+    if(statusCode !== 200) {
+        context.fail(JSON.stringify(response));
+    }
+
+    return response;
 
 };
