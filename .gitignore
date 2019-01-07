@@ -35,3 +35,4 @@ event.json
 
 # ignore .env
 .env
+lambda\.zip

@@ -31,7 +31,12 @@ exports.handler = async function(event, context) {
         event = require(process.env.TESTFILE);
     }
 
-    const webhookUri = process.env.LEGACY_WEBHOOK_URI;
+    const query = event.params.querystring;
+    event = event['body-json'];
+
+    const webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + query.s;
+
+    console.log('webhookUri', webhookUri);
 
     // pull webhook uri from environment
     const options = {
@@ -85,13 +90,19 @@ exports.handler = async function(event, context) {
     });
 
     if(result.errors > 0) {
-        console.error({ eventData: eventData, insertResult: result });
+        console.error('errorsFoundInData', { allEventData: eventData, insertResult: result });
     }
 
     if(result.dupes > 0) {
-        console.warn({ eventData: eventData, insertResult: result });
+        console.warn('dupesFoundInData', { allEventData: eventData, insertResult: result });
     }
 
-    return { "statusCode": result.errors ? 500 : 200, "body": result };
+    const statusCode = result.errors ? 500 : 200
+    const response = { "statusCode": statusCode, "body": result }
+    if(statusCode !== 200) {
+        context.fail(JSON.stringify(response));
+    }
+
+    return response;
 
 };
