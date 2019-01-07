@@ -8,4 +8,4 @@ services:
       - DATABASE=mongodb://sendgrid-eventkit-lambda-mongodb-mongo:27017/sendgrid
       - ENVIRONMENT=${ENVIRONMENT}
       - TESTFILE=${TESTFILE}
-      - LEGACY_WEBHOOK_URI=https://memiah-sendgrid-dev.requestcatcher.com/test
+      - LEGACY_WEBHOOK_URI=https://lambda-test.requestcatcher.com/test
