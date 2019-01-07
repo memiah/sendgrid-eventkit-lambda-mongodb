@@ -38,11 +38,12 @@ exports.handler = async function(event, context) {
     }
 
     const query = event.params.querystring;
+    const site = query.s || '';
     event = event['body-json'];
 
     if(process.env.LEGACY_WEBHOOK_URI) {
         try {
-            const webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + query.s;
+            let webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + site;
 
             console.log('webhookUri', webhookUri);
 
@@ -78,7 +79,7 @@ exports.handler = async function(event, context) {
     try {
         const handledFields = Object.keys(eventModel.schema.obj);
         eventData = eventData.map(event => {
-            let mappedEvent = { 'info': {} };
+            let mappedEvent = { 'site': site, 'info': {} };
             Object.keys(event).forEach(key => {
             if (handledFields.indexOf(key) > -1) {
                 mappedEvent[key] = event[key];
