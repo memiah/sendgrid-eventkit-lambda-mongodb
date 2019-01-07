@@ -14,7 +14,7 @@ const schema = new Schema(
     "status": String,
     "response": String,
     "category": String,
-    "site": String,
+    "site_name": String,
     "ip": String,
     "info": new Schema({}, {strict: false})  
   },
