@@ -15,12 +15,18 @@ exports.handler = async function(event, context) {
 
     // if database connection not active, create it in global scope
     if (dbConnection == null) {
-        dbConnection = await mongoose.createConnection(uri, {
-          bufferCommands: false,
-          bufferMaxEntries: 0,
-          useNewUrlParser: true,
-          useCreateIndex: true
-        });
+        try {
+            dbConnection = await mongoose.createConnection(uri, {
+            bufferCommands: false,
+            bufferMaxEntries: 0,
+            useNewUrlParser: true,
+            useCreateIndex: true
+            });
+        } 
+        catch(err) {
+            const response = { "statusCode": 500, "body": err }
+            context.fail(JSON.stringify(response));
+        }
         // create model and attach to global database connection 
         const eventSchema = require('./models/event');
         dbConnection.model('Event', eventSchema);
@@ -35,19 +41,25 @@ exports.handler = async function(event, context) {
     event = event['body-json'];
 
     if(process.env.LEGACY_WEBHOOK_URI) {
-        const webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + query.s;
+        try {
+            const webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + query.s;
 
-        console.log('webhookUri', webhookUri);
+            console.log('webhookUri', webhookUri);
 
-        // pull webhook uri from environment
-        const options = {
-            method: 'POST',
-            uri: webhookUri,
-            body: event,
-            json: true
-        };
+            // pull webhook uri from environment
+            const options = {
+                method: 'POST',
+                uri: webhookUri,
+                body: event,
+                json: true
+            };
 
-        await request(options);
+            await request(options);
+        }
+        catch(err) {
+            const response = { "statusCode": 500, "body": err }
+            context.fail(JSON.stringify(response));
+        }
     }
 
     const eventModel = dbConnection.model('Event'); 
@@ -55,26 +67,32 @@ exports.handler = async function(event, context) {
     // get event data from gateway passthrough
     let eventData = event; 
 
+    console.log('eventData: ',eventData);
+
     // if event data is a string, parse it
     if(typeof eventData == "string") {
         eventData = JSON.parse(eventData);
     }
 
     // separate unpacked fields and put everything else in eventData embedded data
-    const handledFields = Object.keys(eventModel.schema.obj);
-    eventData = eventData.map(event => {
-        let mappedEvent = { 'info': {} };
-        Object.keys(event).forEach(key => {
-        if (handledFields.indexOf(key) > -1) {
-            mappedEvent[key] = event[key];
-        } else {
-            mappedEvent.info[key] = event[key];
-        }
+    try {
+        const handledFields = Object.keys(eventModel.schema.obj);
+        eventData = eventData.map(event => {
+            let mappedEvent = { 'info': {} };
+            Object.keys(event).forEach(key => {
+            if (handledFields.indexOf(key) > -1) {
+                mappedEvent[key] = event[key];
+            } else {
+                mappedEvent.info[key] = event[key];
+            }
+            });
+            return mappedEvent;
         });
-        //mappedEvent.eventData = JSON.stringify(mappedEvent.eventData);
-        return mappedEvent;
-    });
-
+    }
+    catch(err) {
+        const response = { "statusCode": 500, "body": err }
+        context.fail(JSON.stringify(response));
+    }
 
     // initialise return result
     const result = { received: eventData.length, dupes: 0, errors: 0 };
