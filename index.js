@@ -68,7 +68,7 @@ exports.handler = async function(event, context) {
     // get event data from gateway passthrough
     let eventData = event; 
 
-    console.log('eventData: ',eventData);
+    console.log('events received: ',eventData.length);
 
     // if event data is a string, parse it
     if(typeof eventData == "string") {
