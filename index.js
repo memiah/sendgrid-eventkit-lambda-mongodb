@@ -14,10 +14,10 @@ exports.handler = async function(event, context) {
     let time;
     const logTime = (msg) => {
         if(msg) {
-            const diff = process.hrtime(time);
-            console.log(`${msg}: ${diff[0]}.${diff[1].toString().substr(0,2)}s`);
+            const diff = new Date().getTime() - time;
+            console.log(`${msg}: ${diff}ms`);
         }
-        time = process.hrtime();
+        time = new Date().getTime();
     }
 
     context.callbackWaitsForEmptyEventLoop = false;
