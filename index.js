@@ -53,30 +53,6 @@ exports.handler = async function(event, context) {
     const site_name = query.s || '';
     event = event['body-json'];
 
-    if(process.env.LEGACY_WEBHOOK_URI) {
-        try {
-            logTime();
-            let webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + site_name;
-
-            console.log('webhookUri', webhookUri);
-
-            // pull webhook uri from environment
-            const options = {
-                method: 'POST',
-                uri: webhookUri,
-                body: event,
-                json: true
-            };
-
-            await request(options);
-            logTime('Legacy Webhook Request');
-        }
-        catch(err) {
-            const response = { "statusCode": 500, "body": err }
-            context.fail(JSON.stringify(response));
-        }
-    }
-
     const eventModel = dbConnection.model('Event'); 
 
     // get event data from gateway passthrough
@@ -142,6 +118,29 @@ exports.handler = async function(event, context) {
     if(statusCode !== 200) {
         context.fail(JSON.stringify(response));
     }
+
+    if(process.env.LEGACY_WEBHOOK_URI) {
+        try {
+            logTime();
+            let webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + site_name;
+
+            console.log('webhookUri', webhookUri);
+
+            // pull webhook uri from environment
+            const options = {
+                method: 'POST',
+                uri: webhookUri,
+                body: event,
+                json: true
+            };
+
+            await request(options);
+            logTime('Legacy Webhook Request');
+        }
+        catch(err) {
+            console.log('Legacy Webhook Request Failed: ',err);
+        }
+    }    
 
     return response;
 
