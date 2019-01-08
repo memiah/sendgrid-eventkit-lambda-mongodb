@@ -11,10 +11,20 @@ let dbConnection = null;
 // lambda entry handler
 exports.handler = async function(event, context) {
 
+    let time;
+    const logTime = (msg) => {
+        if(msg) {
+            const diff = process.hrtime(time);
+            console.log(`${msg}: ${diff[0]}.${diff[1].toString().substr(0,2)}s`);
+        }
+        time = process.hrtime();
+    }
+
     context.callbackWaitsForEmptyEventLoop = false;
 
     // if database connection not active, create it in global scope
     if (dbConnection == null) {
+        logTime();
         try {
             dbConnection = await mongoose.createConnection(uri, {
             bufferCommands: false,
@@ -30,6 +40,8 @@ exports.handler = async function(event, context) {
         // create model and attach to global database connection 
         const eventSchema = require('./models/event');
         dbConnection.model('Event', eventSchema);
+
+        logTime('DB Connection Setup');
     }
 
     //swap out event for test file when in dev
@@ -43,6 +55,7 @@ exports.handler = async function(event, context) {
 
     if(process.env.LEGACY_WEBHOOK_URI) {
         try {
+            logTime();
             let webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + site_name;
 
             console.log('webhookUri', webhookUri);
@@ -56,6 +69,7 @@ exports.handler = async function(event, context) {
             };
 
             await request(options);
+            logTime('Legacy Webhook Request');
         }
         catch(err) {
             const response = { "statusCode": 500, "body": err }
@@ -70,6 +84,7 @@ exports.handler = async function(event, context) {
 
     console.log('events received: ',eventData.length);
 
+    logTime();
     // if event data is a string, parse it
     if(typeof eventData == "string") {
         eventData = JSON.parse(eventData);
@@ -95,9 +110,12 @@ exports.handler = async function(event, context) {
         context.fail(JSON.stringify(response));
     }
 
+    logTime('Prepare Data');
+
     // initialise return result
     const result = { received: eventData.length, dupes: 0, errors: 0 };
 
+    logTime();
     await new Promise((resolve, reject) => {
         // insert records
         eventModel.insertMany(eventData, { ordered: false }, (error) => { 
@@ -109,6 +127,7 @@ exports.handler = async function(event, context) {
             resolve(true);
         });
     });
+    logTime('Database Inserts');
 
     if(result.errors > 0) {
         console.error('errorsFoundInData', { allEventData: eventData, insertResult: result });
