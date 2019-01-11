@@ -70,7 +70,7 @@ exports.handler = async function(event, context) {
     try {
         const handledFields = Object.keys(eventModel.schema.obj);
         eventData = eventData.map(event => {
-            let mappedEvent = { 'site_name': site_name, 'info': {} };
+            let mappedEvent = { 'site_name': site_name, 'info': {}, member: {} };
             Object.keys(event).forEach(key => {
             if (handledFields.indexOf(key) > -1) {
                 mappedEvent[key] = event[key];
