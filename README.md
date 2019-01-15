@@ -1,5 +1,8 @@
 
-# sendgrid-eventkit-lambda-mongodb - [![Build Status](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb.svg?branch=master)](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb)
+# sendgrid-eventkit-lambda-mongodb
+[![Build Status](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb.svg?branch=master)](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb)
+[![Open Issues](https://img.shields.io/github/issues/memiah/sendgrid-eventkit-lambda-mongodb.svg)](https://github.com/memiah/sendgrid-eventkit-lambda-mongodb/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Table of Contents
 * [**.iam.md: IAM Policy & Setup**](.iam.md#table-of-contents)
