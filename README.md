@@ -6,6 +6,7 @@
 
 ## Table of Contents
 * [**.iam.md: IAM Policy & Setup**](.iam.md#table-of-contents)
+* [**.aws.setup.md: AWS Lambda & API Gateway setup**](.aws.setup.md#table-of-contents)
 
 * [Table of Contents](#table-of-contents)
     * [Motivation ](#motivation)
@@ -49,6 +50,7 @@ docker rm -v sendgrid-eventkit-lambda-mongodb-mongo
 - This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
 - docker exits when lambda function returns code (sendgrid_app_1 exited with code ~)
 - ~ = 0 = success; 
+
 
 ## Pending updates
 - [X] enforce unique index on sg_message_id

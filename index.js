@@ -11,19 +11,37 @@ let dbConnection = null;
 // lambda entry handler
 exports.handler = async function(event, context) {
 
+    let time;
+    const logTime = (msg) => {
+        if(msg) {
+            const diff = new Date().getTime() - time;
+            console.log(`${msg}: ${diff}ms`);
+        }
+        time = new Date().getTime();
+    }
+
     context.callbackWaitsForEmptyEventLoop = false;
 
     // if database connection not active, create it in global scope
     if (dbConnection == null) {
-        dbConnection = await mongoose.createConnection(uri, {
-          bufferCommands: false,
-          bufferMaxEntries: 0,
-          useNewUrlParser: true,
-          useCreateIndex: true
-        });
+        logTime();
+        try {
+            dbConnection = await mongoose.createConnection(uri, {
+            bufferCommands: false,
+            bufferMaxEntries: 0,
+            useNewUrlParser: true,
+            useCreateIndex: true
+            });
+        } 
+        catch(err) {
+            const response = { "statusCode": 500, "body": err }
+            context.fail(JSON.stringify(response));
+        }
         // create model and attach to global database connection 
         const eventSchema = require('./models/event');
         dbConnection.model('Event', eventSchema);
+
+        logTime('DB Connection Setup');
     }
 
     //swap out event for test file when in dev
@@ -31,47 +49,49 @@ exports.handler = async function(event, context) {
         event = require(process.env.TESTFILE);
     }
 
-    const webhookUri = process.env.LEGACY_WEBHOOK_URI;
-
-    // pull webhook uri from environment
-    const options = {
-        method: 'POST',
-        uri: webhookUri,
-        body: event,
-        json: true
-    };
-
-    await request(options);
+    const query = event.params.querystring;
+    const site_name = query.s || '';
+    event = event['body-json'];
 
     const eventModel = dbConnection.model('Event'); 
 
     // get event data from gateway passthrough
     let eventData = event; 
 
+    console.log('events received: ',eventData.length);
+
+    logTime();
     // if event data is a string, parse it
     if(typeof eventData == "string") {
         eventData = JSON.parse(eventData);
     }
 
     // separate unpacked fields and put everything else in eventData embedded data
-    const handledFields = Object.keys(eventModel.schema.obj);
-    eventData = eventData.map(event => {
-        let mappedEvent = { 'info': {} };
-        Object.keys(event).forEach(key => {
-        if (handledFields.indexOf(key) > -1) {
-            mappedEvent[key] = event[key];
-        } else {
-            mappedEvent.info[key] = event[key];
-        }
+    try {
+        const handledFields = Object.keys(eventModel.schema.obj);
+        eventData = eventData.map(event => {
+            let mappedEvent = { 'site_name': site_name, 'info': {}, member: {} };
+            Object.keys(event).forEach(key => {
+            if (handledFields.indexOf(key) > -1) {
+                mappedEvent[key] = event[key];
+            } else {
+                mappedEvent.info[key] = event[key];
+            }
+            });
+            return mappedEvent;
         });
-        //mappedEvent.eventData = JSON.stringify(mappedEvent.eventData);
-        return mappedEvent;
-    });
+    }
+    catch(err) {
+        const response = { "statusCode": 500, "body": err }
+        context.fail(JSON.stringify(response));
+    }
 
+    logTime('Prepare Data');
 
     // initialise return result
     const result = { received: eventData.length, dupes: 0, errors: 0 };
 
+    logTime();
     await new Promise((resolve, reject) => {
         // insert records
         eventModel.insertMany(eventData, { ordered: false }, (error) => { 
@@ -83,15 +103,45 @@ exports.handler = async function(event, context) {
             resolve(true);
         });
     });
+    logTime('Database Inserts');
 
     if(result.errors > 0) {
-        console.error({ eventData: eventData, insertResult: result });
+        console.error('errorsFoundInData', { allEventData: eventData, insertResult: result });
     }
 
     if(result.dupes > 0) {
-        console.warn({ eventData: eventData, insertResult: result });
+        console.warn('dupesFoundInData', { allEventData: eventData, insertResult: result });
     }
 
-    return { "statusCode": result.errors ? 500 : 200, "body": result };
+    const statusCode = result.errors ? 500 : 200
+    const response = { "statusCode": statusCode, "body": result }
+    if(statusCode !== 200) {
+        context.fail(JSON.stringify(response));
+    }
+
+    if(process.env.LEGACY_WEBHOOK_URI) {
+        try {
+            logTime();
+            let webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + site_name;
+
+            console.log('webhookUri', webhookUri);
+
+            // pull webhook uri from environment
+            const options = {
+                method: 'POST',
+                uri: webhookUri,
+                body: event,
+                json: true
+            };
+
+            await request(options);
+            logTime('Legacy Webhook Request');
+        }
+        catch(err) {
+            console.log('Legacy Webhook Request Failed: ',err);
+        }
+    }    
+
+    return response;
 
 };

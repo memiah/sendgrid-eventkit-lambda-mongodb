@@ -22,6 +22,7 @@ deploy:
   function_name: "sendgrid-eventkit"
   handler_name: "handler"
   runtime: "nodejs8.10"
+  timeout: 10
 
 after_script:
   - docker-compose stop
