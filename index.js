@@ -78,6 +78,7 @@ exports.handler = async function(event, context) {
                 mappedEvent.info[key] = event[key];
             }
             });
+            mappedEvent.timestamp = mappedEvent.timestamp * 1000;
             return mappedEvent;
         });
     }
