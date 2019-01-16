@@ -25,7 +25,7 @@ const schema = new Schema(
       "resolved_timestamp": Number
     })
   },
-  { collection: 'events' },
+  { collection: process.env.COLLECTION },
 );
 
 module.exports = schema;
