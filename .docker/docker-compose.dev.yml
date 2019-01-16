@@ -6,6 +6,7 @@ services:
       - .:/var/task
     environment:
       - DATABASE=mongodb://sendgrid-eventkit-lambda-mongodb-mongo:27017/sendgrid
+      - COLLECTION=events_test2
       - ENVIRONMENT=${ENVIRONMENT}
       - TESTFILE=${TESTFILE}
-      - LEGACY_WEBHOOK_URI=https://lambda-test.requestcatcher.com/test
+      - LEGACY_WEBHOOK_URI=https://webhook.site/f7c5cbe6-32db-4a1b-a39d-c915549981c2
