@@ -5,7 +5,7 @@ const request = require('request-promise');
 
 // DATABASE mongo URI should be set via Lambda env
 const uri = process.env.DATABASE;
-// scope dbconnection globally
+// scope dbconnection globally for re-use by different requests
 let dbConnection = null;
 
 // lambda entry handler
