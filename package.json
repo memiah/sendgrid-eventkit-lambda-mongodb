@@ -4,6 +4,10 @@
     "type": "git",
     "url": "https://github.com/memiah/sendgrid-eventkit-lambda-mongodb.git"
   },
+  "scripts": {
+    "test": "docker-compose -f ./docker-compose.yml -f ./.docker/docker-compose.dev.yml up --exit-code-from app",
+    "cleanup": "docker rm -v sendgrid-eventkit-lambda-mongodb-mongo"
+  }, 
   "version": "1.0.0",
   "description": "lambda functions for sendgrid integration with mongo",
   "main": "index.js",
