@@ -41,10 +41,10 @@ npm install
 
 5. Init Docker
 ```bash
-# use docker to run test
-docker-compose -f ./docker-compose.yml -f ./.docker/docker-compose.dev.yml up --exit-code-from app
+# run test via local docker containers
+npm run test
 # clean up containers
-docker rm -v sendgrid-eventkit-lambda-mongodb-mongo 
+npm run cleanup
 ```
 
 - This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
