@@ -1,13 +1,6 @@
 version: '3'
 
 services:
-  app:
-    container_name: sendgrid-eventkit-lambda-mongodb-app
-    build:
-      context: .
-      dockerfile: .docker/Dockerfile.${ENVIRONMENT}
-    depends_on:
-      - mongodb
 
   mongodb:
     container_name: sendgrid-eventkit-lambda-mongodb-mongo

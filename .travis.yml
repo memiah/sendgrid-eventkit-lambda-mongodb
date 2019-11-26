@@ -7,13 +7,10 @@ services:
 env:
   ENVIRONMENT: travis
 
-before_install:
-  - sudo docker --version
-  - sudo docker build --no-cache --rm --file=.docker/Dockerfile.travis .
-
 script:
-  - docker-compose -f docker-compose.yml -f .docker/docker-compose.travis.yml up --exit-code-from app
+  - docker-compose up
   - npm install
+  - node app.js
 
 deploy:
   provider: lambda
