@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const defaults = require('../const/defaults');
+
+const collection = process.env.COLLECTION || defaults.MONGO_COLLECTION; 
 
 const Schema = mongoose.Schema;
 
@@ -25,7 +28,7 @@ const schema = new Schema(
       "resolved_timestamp": Number
     })
   },
-  { collection: process.env.COLLECTION },
+  { collection },
 );
 
 module.exports = schema;
