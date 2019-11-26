@@ -119,29 +119,6 @@ exports.handler = async function(event, context) {
         context.fail(JSON.stringify(response));
     }
 
-    if(process.env.LEGACY_WEBHOOK_URI) {
-        try {
-            logTime();
-            let webhookUri = process.env.LEGACY_WEBHOOK_URI + '?s=' + site_name;
-
-            console.log('webhookUri', webhookUri);
-
-            // pull webhook uri from environment
-            const options = {
-                method: 'POST',
-                uri: webhookUri,
-                body: event,
-                json: true
-            };
-
-            await request(options);
-            logTime('Legacy Webhook Request');
-        }
-        catch(err) {
-            console.log('Legacy Webhook Request Failed: ',err);
-        }
-    }    
-
     return response;
 
 };
