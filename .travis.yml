@@ -2,13 +2,12 @@ sudo: required
 dist: trusty
 
 services:
-  - docker
+  - mongodb
 
 env:
   ENVIRONMENT: travis
 
 script:
-  - docker-compose up
   - npm install
   - node app.js
 
@@ -20,7 +19,3 @@ deploy:
   handler_name: "handler"
   runtime: "nodejs8.10"
   timeout: 10
-
-after_script:
-  - docker-compose stop
-  - docker-compose rm -f
