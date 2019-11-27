@@ -17,5 +17,5 @@ deploy:
   region: "eu-west-2"
   function_name: "sendgrid-eventkit"
   handler_name: "handler"
-  runtime: "nodejs8.10"
+  runtime: "nodejs12.x"
   timeout: 10
