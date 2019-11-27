@@ -9,10 +9,8 @@ exports.handler = async (event, context) => {
 
     const result = await handler(event);
 
-    const statusCode = result.errors ? 500 : 200
-    const response = { "statusCode": statusCode, "body": result }
-    if(statusCode !== 200) {
-        context.fail(JSON.stringify(response));
+    if(result.statusCode !== 200) {
+        context.fail(JSON.stringify(result));
     }
 
     return response;

@@ -58,8 +58,7 @@ const handler = async (event, context) => {
     // get event data from gateway passthrough
     let eventData = event; 
 
-    console.log('events received: ',eventData.length);
-    console.log('events: ',eventData);
+    console.log('Events received: ',eventData.length);
 
     logTime();
     // if event data is a string, parse it
@@ -89,15 +88,14 @@ const handler = async (event, context) => {
     logTime('Prepare Data');
 
     // initialise return result
-    const result = { received: eventData.length, dupes: 0, errors: 0 };
+    const result = { received: eventData.length, dupes: 0, errors: 0, affected: 0 };
 
     logTime();
     await new Promise(resolve => {
         // insert records
         eventModel.insertMany(eventData, { ordered: false }, (error, docs) => { 
             // count dupes and non-dupe errors
-            console.log('MongoDB Error', error);
-            console.log('MongoDB Docs', docs);
+            result.affected = docs.length;
             if(error && error.writeErrors) {
                 result.dupes = error.writeErrors.filter( error => error.err.code == 11000 ).length;
                 result.errors = error.writeErrors.length - result.dupes;
@@ -105,7 +103,7 @@ const handler = async (event, context) => {
             resolve(true);
         });
     });
-    logTime('Database Inserts');
+    logTime('Database Inserts', result);
 
     if(result.errors > 0) {
         console.error('errorsFoundInData', { allEventData: eventData, insertResult: result });
@@ -115,7 +113,11 @@ const handler = async (event, context) => {
         console.warn('dupesFoundInData', { allEventData: eventData, insertResult: result });
     }
 
-    const statusCode = result.errors ? 500 : 200
+    if(result.affected == 0) {
+        console.error('noAffectedRows', { allEventData: eventData, insertResult: result });
+    }
+
+    const statusCode = result.errors || !result.affected ? 500 : 200
     const response = { "statusCode": statusCode, "body": result }
     
     return response;
