@@ -58,6 +58,7 @@ const handler = async (event, context) => {
     let eventData = event; 
 
     console.log('events received: ',eventData.length);
+    console.log('events: ',eventData);
 
     logTime();
     // if event data is a string, parse it
