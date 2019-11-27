@@ -13,6 +13,6 @@ exports.handler = async (event, context) => {
         context.fail(JSON.stringify(result));
     }
 
-    return response;
+    return result;
 
 };
