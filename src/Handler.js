@@ -93,8 +93,10 @@ const handler = async (event, context) => {
     logTime();
     await new Promise(resolve => {
         // insert records
-        eventModel.insertMany(eventData, { ordered: false }, (error) => { 
+        eventModel.insertMany(eventData, { ordered: false }, (error, docs) => { 
             // count dupes and non-dupe errors
+            console.log('MongoDB Error', error);
+            console.log('MongoDB Docs', docs);
             if(error && error.writeErrors) {
                 result.dupes = error.writeErrors.filter( error => error.err.code == 11000 ).length;
                 result.errors = error.writeErrors.length - result.dupes;
