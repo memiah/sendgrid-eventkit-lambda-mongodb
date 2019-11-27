@@ -29,7 +29,8 @@ const handler = async (event, context) => {
             bufferCommands: false,
             bufferMaxEntries: 0,
             useNewUrlParser: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            useUnifiedTopology: true
             });
         } 
         catch(err) {
