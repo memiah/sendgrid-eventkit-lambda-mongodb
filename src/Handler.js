@@ -2,6 +2,7 @@
 
 const mongoose = require("mongoose");
 const defaults = require('./const/defaults');
+const AWS = require('aws-sdk');
 
 // DATABASE mongo URI should be set in env
 const uri = process.env.DATABASE || defaults.MONGO_DEFAULT_URI;
@@ -98,7 +99,7 @@ const handler = async (event, context) => {
         // insert records
         eventModel.insertMany(eventData, { ordered: false }, (error, docs) => { 
             // count dupes and non-dupe errors
-            result.affected = docs.length;
+            result.affected = docs && docs.length;
             if(error && error.writeErrors) {
                 result.dupes = error.writeErrors.filter( error => error.err.code == 11000 ).length;
                 result.errors = error.writeErrors.length - result.dupes;
@@ -108,23 +109,43 @@ const handler = async (event, context) => {
     });
     logTime('Database Inserts', result);
 
+    const statusCode = result.errors || !result.affected ? 500 : 200
+
+    var sqsMessageId = '';
+    if(statusCode == 500 && process.env.SQS_REDRIVE_QUEUE) {
+        const sqs = new AWS.SQS({ region: process.env.SQS_REDRIVE_QUEUE.split('.')[1] });
+        sqsMessageId = await new Promise(resolve => {
+            const params = {
+                QueueUrl: process.env.SQS_REDRIVE_QUEUE,
+                MessageBody: JSON.stringify(eventData),
+            }
+            sqs.sendMessage(params, (err, data) => {
+                if (err) {
+                    console.log('Erroring sending to sqs', err);
+                    console.log('EventData', eventData);
+                    resolve(false);
+                }
+                if (data) {
+                    resolve(data.MessageId);
+                }
+            });
+        });
+    }
+
     if(result.errors > 0) {
-        console.error('errorsFoundInData', { allEventData: eventData, insertResult: result });
+        console.error('errorsFoundInData', { sqsMessageId, result });
     }
 
     if(result.dupes > 0) {
-        console.warn('dupesFoundInData', { allEventData: eventData, insertResult: result });
+        console.warn('dupesFoundInData', { sqsMessageId, result });
     }
 
     if(result.affected == 0) {
-        console.error('noAffectedRows', { allEventData: eventData, insertResult: result });
+        console.error('noAffectedRows', { sqsMessageId, result });
     }
 
-    const statusCode = result.errors || !result.affected ? 500 : 200
-    const response = { "statusCode": statusCode, "body": result }
-    
-    return response;
-
+    return { "statusCode": statusCode, "body": result };
+  
 };
 
 module.exports = handler;

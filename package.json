@@ -7,7 +7,7 @@
   "scripts": {
     "test": "docker-compose -f ./docker-compose.yml -f ./.docker/docker-compose.dev.yml up --exit-code-from app",
     "cleanup": "docker-compose stop && docker-compose rm -f",
-    "update-staging": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit-testing --zip-file fileb://./lambda.zip && rm ./lambda.zip"
+    "update-staging": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit-testing --zip-file fileb://./lambda.zip && rm ./lambda.zip",
   },
   "version": "1.0.0",
   "description": "lambda functions for sendgrid integration with mongo",
@@ -15,7 +15,8 @@
   "author": "SGT",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^5.7.5",
-    "dotenv": "^8.2.0"
+    "aws-sdk": "^2.580.0",
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.7.5"
   }
 }
