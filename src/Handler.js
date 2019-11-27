@@ -90,6 +90,9 @@ const handler = async (event, context) => {
     // initialise return result
     const result = { received: eventData.length, dupes: 0, errors: 0, affected: 0 };
 
+    // if category is array, replace with first element (sendgrid changed data format but we only want a string )
+    eventData = eventData.map(e => { return { ...e, category: Array.isArray(e.category) ? e.category[0] : e.category }});
+
     logTime();
     await new Promise(resolve => {
         // insert records
