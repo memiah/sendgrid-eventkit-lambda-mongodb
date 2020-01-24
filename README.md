@@ -22,35 +22,45 @@
 Provision a Lambda based relay script that will, self test, self deploy and consume SendGrid webhook endpoints and relay them to Mongodb's Atlas cloud service.  Also included as part of the microservice is information on how to setup the AWS IAM policies with the least permissive [policy](.iam.md#example-policy) possible. The service is deployable using the Travis github hooks and will automatically test with local integrations of NodeJS and MongoDB that are stored within the docker containers.
 
 
-## Local Development via Docker with Mapped volumes
-The folder ./.docker folder contains the dev containers as well as the travis production containers. [**.env.example**](#process) must be populated when running in development as per the process below.
+## Local Dependancies
+1. npm
+2. Docker (optional but recommended)
 
-### Local Dependancies
-1. Docker
-2. docker-compose
-3. npm
-
-### Process
+## Process
 1. Copy .env.example to .env
-2. Update ENVIRONMENT to "development"
-3. Change TESTFILE location if desired
-4. Install NPM dependancies
+2. Check DATABASE points to valid MongoDB URI ([mongo setup](#mongo-setup))
+3. Install NPM dependancies
 ```bash
 npm install
 ```
 
-5. Init Docker
+4. Test
 ```bash
 # run test via local docker containers
-npm run test
+npm test
 # clean up containers
 npm run cleanup
 ```
 
-- This will run the lambda function with the 'event' argument data overwritten from the TESTFILE json.
-- docker exits when lambda function returns code (sendgrid_app_1 exited with code ~)
-- ~ = 0 = success; 
+## Mongo Setup
+You can set the DATABASE environment variable to any valid Mongo connection URI.
 
+However, it is recommend you test to a local isolated Mongo instance.
+
+Via provided NPM script:
+```bash
+npm run setup-mongo
+```
+
+Via Docker directly:
+```bash
+docker run --detach --name sendgrid-mongo --expose 27017 -p 127.0.0.1:27017:27017/tcp mongo
+```
+
+To change local port due to any conflicts:
+- Update `127.0.0.1:27017` to `127.0.0.1:xxxxx` where `xxxxx` is new port.
+- Update .env connection string with new port
+- This can be ran manually, or updated in `package.json` for ongoing convenience
 
 ## Pending updates
 - [X] enforce unique index on sg_message_id
