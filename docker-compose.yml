@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-
-  mongodb:
-    container_name: sendgrid-eventkit-lambda-mongodb-mongo
-    image: mongo
-    ports:
-      - "27017:27017"
