@@ -103,8 +103,9 @@ const handler = async (event, context) => {
             if(error) {
                 console.log('MongoDB Error',error);
                 if (error.writeErrors) {
-                result.dupes = error.writeErrors.filter( error => error.err.code == 11000 ).length;
-                result.errors = error.writeErrors.length - result.dupes;
+                    result.dupes = error.writeErrors.filter( error => error.err.code == 11000 ).length;
+                    result.errors = error.writeErrors.length - result.dupes;
+                }
             }
             resolve(true);
         });
