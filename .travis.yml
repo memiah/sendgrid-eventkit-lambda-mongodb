@@ -9,8 +9,6 @@ env:
 
 script:
   - npm install
-  - npm run setup
-  - sleep 10
   - npm test
 
 deploy:
