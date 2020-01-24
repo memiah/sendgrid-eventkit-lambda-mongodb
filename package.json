@@ -8,6 +8,7 @@
     "test": "docker-compose -f ./docker-compose.yml -f ./.docker/docker-compose.dev.yml up --exit-code-from app",
     "cleanup": "docker-compose stop && docker-compose rm -f",
     "update-staging": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit-testing --zip-file fileb://./lambda.zip && rm ./lambda.zip",
+    "update-production-ignoring-travis-ci": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit --zip-file fileb://./lambda.zip && rm ./lambda.zip"
   },
   "version": "1.0.0",
   "description": "lambda functions for sendgrid integration with mongo",
