@@ -110,6 +110,7 @@ const handler = async (event, context) => {
             resolve(true);
         });
     });
+    
     logTime('Database Inserts', result);
 
     const statusCode = result.errors || !result.affected ? 500 : 200
