@@ -9,9 +9,9 @@ env:
 
 script:
   - npm install
-  - docker-compose up -d
+  - npm run setup
   - sleep 10
-  - node app.js
+  - npm test
 
 deploy:
   provider: lambda
