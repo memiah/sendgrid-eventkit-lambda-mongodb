@@ -5,7 +5,7 @@
     "url": "https://github.com/memiah/sendgrid-eventkit-lambda-mongodb.git"
   },
   "scripts": {
-    "test": "docker-compose -f ./docker-compose.yml -f ./.docker/docker-compose.dev.yml up --exit-code-from app",
+    "test": "node app.js",
     "cleanup": "docker-compose stop && docker-compose rm -f",
     "update-staging": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit-testing --zip-file fileb://./lambda.zip && rm ./lambda.zip",
     "update-production-ignoring-travis-ci": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit --zip-file fileb://./lambda.zip && rm ./lambda.zip"
