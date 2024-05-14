@@ -89,21 +89,21 @@ const handler = async (event, context) => {
   });
 
   logTime();
-  await new Promise((resolve) => {
-    // insert records
-    eventModel.insertMany(eventData, { ordered: false }, (error, docs) => {
-      // count dupes and non-dupe errors
-      result.affected = (docs && docs.length) || 0;
-      if (error) {
-        console.log('MongoDB Error', error);
-        if (error.writeErrors) {
-          result.dupes = error.writeErrors.filter((error) => error.err.code == 11000).length;
-          result.errors = error.writeErrors.length - result.dupes;
-        }
-      }
-      resolve(true);
-    });
-  });
+  try {
+    const docs = await eventModel.insertMany(eventData, { ordered: false });
+    result.affected = (docs && docs.length) || 0;
+    result.dupes = 0;
+    result.errors = 0;
+  } catch (error) {
+    console.log('MongoDB Error', error);
+    if (error.writeErrors) {
+      result.dupes = error.writeErrors.filter((err) => err.code === 11000).length;
+      result.errors = error.writeErrors.length - result.dupes;
+    } else {
+      result.dupes = 0;
+      result.errors = 0;
+    }
+  }
 
   logTime('Database Inserts', result);
 
