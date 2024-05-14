@@ -25,13 +25,7 @@ const handler = async (event, context) => {
   if (dbConnection == null) {
     logTime();
     try {
-      dbConnection = await mongoose.createConnection(uri, {
-        bufferCommands: false,
-        bufferMaxEntries: 0,
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTopology: true,
-      });
+      dbConnection = await mongoose.connect(uri);
     } catch (err) {
       const response = { statusCode: 500, body: err };
       return response;
