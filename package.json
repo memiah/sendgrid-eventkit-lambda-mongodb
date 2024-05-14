@@ -17,8 +17,8 @@
   "author": "SGT",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.580.0",
-    "dotenv": "^8.2.0",
-    "mongoose": "^5.7.5"
+    "aws-sdk": "^2.1619.0",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.3.4"
   }
 }
