@@ -40,7 +40,7 @@ const handler = async (event, context) => {
 
   //swap out event for test file when in dev
   if (process.env.TESTFILE) {
-    event = require(process.env.TESTFILE);
+    event = require(`../testdata/${process.env.TESTFILE}`);
   }
 
   const query = event.params.querystring;
