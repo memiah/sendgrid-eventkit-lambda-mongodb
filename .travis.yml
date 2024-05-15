@@ -9,6 +9,7 @@ env:
 
 script:
   - npm install
+  - node --version
   - npm test
 
 deploy:
