@@ -106,7 +106,7 @@ const handler = async (event, context) => {
 
   logTime('Database Inserts', result);
 
-  const statusCode = result.errors || !result.affected ? 500 : 200;
+  const statusCode = result.errors > 0 || result.received != result.dupes + result.affected ? 500 : 200;
 
   var sqsMessageId = '';
   if (statusCode == 500 && process.env.SQS_REDRIVE_QUEUE) {
