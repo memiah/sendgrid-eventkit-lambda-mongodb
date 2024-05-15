@@ -1,5 +1,6 @@
 # Define the OS and language for the build
 os: linux
+dist: focal
 language: node_js
 
 # Specify the Node.js version
