@@ -1,5 +1,10 @@
-sudo: required
-dist: trusty
+# Define the OS and language for the build
+os: linux
+language: node_js
+
+# Specify the Node.js version
+node_js:
+  - '20'
 
 services:
   - mongodb
