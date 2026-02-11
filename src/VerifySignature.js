@@ -60,13 +60,22 @@ function toBodyBuffer(event) {
 }
 
 function verifySendgridSignature(event, opts = {}) {
+
+    const siteKeys = {
+        counselling: process.env.SENDGRID_VERIFY_KEY_COUNSELLING,
+        hypnotherapy: process.env.SENDGRID_VERIFY_KEY_HYPNOTHERAPY,
+        lifecoach: process.env.SENDGRID_VERIFY_KEY_LIFECOACH,
+        nutrition: process.env.SENDGRID_VERIFY_KEY_NUTRITION,
+        therapy: process.env.SENDGRID_VERIFY_KEY_THERAPY
+    };
+
     const {
-        signatureTimeout = 6000,
-        publicKeyPem = process.env.SENDGRID_VERIFY_KEY,
+        signatureTimeout = 60000,
+        verifyKey = siteKeys[event.params.querystring.s],
         requireSignatureHeaders = true,
     } = opts;
 
-    if (!publicKeyPem) {
+    if (!verifyKey) {
         return { ok: false, reason: "Missing SENDGRID_VERIFY_KEY", statusCode: 500 };
     }
 
@@ -100,7 +109,7 @@ function verifySendgridSignature(event, opts = {}) {
     const payload = Buffer.concat([Buffer.from(String(timestamp), "utf8"), bodyBuf]);
 
     try {
-        const publicKey = makePublicKey(publicKeyPem);
+        const publicKey = makePublicKey(verifyKey);
         const ok = crypto.verify("sha256", payload, publicKey, signature);
         if (!ok) return { ok: false, reason: "Invalid signature", statusCode: 401 };
         return { ok: true };
