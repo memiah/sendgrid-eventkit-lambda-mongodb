@@ -1,6 +1,5 @@
 # sendgrid-eventkit-lambda-mongodb
 
-[![Build Status](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb.svg?branch=master)](https://travis-ci.org/memiah/sendgrid-eventkit-lambda-mongodb)
 [![Open Issues](https://img.shields.io/github/issues/memiah/sendgrid-eventkit-lambda-mongodb.svg)](https://github.com/memiah/sendgrid-eventkit-lambda-mongodb/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -20,7 +19,7 @@
 
 ## Motivation
 
-Provision a Lambda based relay script that will, self test, self deploy and consume SendGrid webhook endpoints and relay them to Mongodb's Atlas cloud service. Also included as part of the microservice is information on how to setup the AWS IAM policies with the least permissive [policy](.iam.md#example-policy) possible. The service is deployable using the Travis github hooks and will automatically test with local integrations of NodeJS and MongoDB that are stored within the docker containers.
+Provision a Lambda based relay script that will, self test, self deploy and consume SendGrid webhook endpoints and relay them to Mongodb's Atlas cloud service. Also included as part of the microservice is information on how to setup the AWS IAM policies with the least permissive [policy](.iam.md#example-policy) possible.
 
 ## Local Dependancies
 
@@ -83,7 +82,7 @@ To change local port due to any conflicts:
   - [x] document Travis:IAM process
   - [x] set up travis build file using docker
   - [x] add Lambda deployment to travis (https://docs.travis-ci.com/user/deployment/lambda/)
-- [ ] document AWS API Gateway setup
+- [x] document AWS API Gateway setup
 
 ## Contributing
 
