@@ -9,7 +9,8 @@
     "test": "node app.js",
     "cleanup": "docker stop sendgrid-mongo && docker rm sendgrid-mongo",
     "update-staging": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit-testing --zip-file fileb://./lambda.zip && rm ./lambda.zip",
-    "update-production-ignoring-travis-ci": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit --zip-file fileb://./lambda.zip && rm ./lambda.zip"
+    "update-production": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit --zip-file fileb://./lambda.zip && rm ./lambda.zip",
+    "update-new-private": "zip -r ./lambda.zip index.js src/ node_modules/ && aws lambda update-function-code --function-name sendgrid-eventkit-private --zip-file fileb://./lambda.zip && rm ./lambda.zip"
   },
   "version": "1.0.0",
   "description": "lambda functions for sendgrid integration with mongo",
