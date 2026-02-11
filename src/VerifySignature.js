@@ -62,12 +62,12 @@ function toBodyBuffer(event) {
 function verifySendgridSignature(event, opts = {}) {
     const {
         signatureTimeout = 6000,
-        publicKeyPem = process.env.SENDGRID_PUBLIC_KEY_PEM,
+        publicKeyPem = process.env.SENDGRID_VERIFY_KEY,
         requireSignatureHeaders = true,
     } = opts;
 
     if (!publicKeyPem) {
-        return { ok: false, reason: "Missing SENDGRID_PUBLIC_KEY_PEM", statusCode: 500 };
+        return { ok: false, reason: "Missing SENDGRID_VERIFY_KEY", statusCode: 500 };
     }
 
     const headers = getAllHeaders(event);
