@@ -71,7 +71,6 @@ function verifySendgridSignature(event, opts = {}) {
     }
 
     const headers = getAllHeaders(event);
-    console.log('event', event);
     const signatureB64 = getHeader(headers, "X-Twilio-Email-Event-Webhook-Signature");
     const timestamp = getHeader(headers, "X-Twilio-Email-Event-Webhook-Timestamp");
 
