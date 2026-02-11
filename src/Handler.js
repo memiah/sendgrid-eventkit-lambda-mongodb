@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const defaults = require('./const/defaults');
 const AWS = require('aws-sdk');
+const { verifySendgridSignature } = require("./VerifySignature");
 
 // DATABASE mongo URI should be set in env
 const uri = process.env.DATABASE || defaults.MONGO_DEFAULT_URI;
@@ -41,6 +42,16 @@ const handler = async (event, context) => {
   //swap out event for test file when in dev
   if (process.env.TESTFILE) {
     event = require(`../testdata/${process.env.TESTFILE}`);
+  }
+
+  const sig = verifySendgridSignature(event, {
+    requireSignatureHeaders: true,
+    maxSkewSeconds: 300,
+  });
+
+  if (!sig.ok) {
+    console.error("sendgrid_signature_verification_failed", { reason: sig.reason });
+    return { statusCode: sig.statusCode || 401, body: sig.reason };
   }
 
   const query = event.params.querystring;
